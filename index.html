@@ -258,7 +258,9 @@ pre.code .c { color: var(--faint); } pre.code .a { color: var(--accent); } pre.c
 @media (max-width: 760px) {
   body { overflow: auto; }
   .menu.hide-sm, .mb-right .clock { display: none; }
-  #gl { width: 100%; height: 58%; top: auto; bottom: 0; opacity: .85; }
+  #gl { width: 100%; height: 32%; top: 37%; bottom: auto; opacity: .95; }
+  .hello { position: relative; background: color-mix(in srgb, var(--bg) 72%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border: 1px solid var(--line); border-radius: 12px; padding: 14px 14px 12px !important; }
+  .hello .who { font-size: clamp(44px, 14vw, 64px); }
   .leftcol { width: 100%; padding: 12px 12px 18px; }
   .icons { grid-template-columns: repeat(3, 1fr); }
   .ico svg { width: 34px; height: 34px; }
@@ -729,7 +731,7 @@ pre.code .c { color: var(--faint); } pre.code .a { color: var(--accent); } pre.c
       wire.material.color = acc2.clone(); ring.material.color = acc.clone(); stars.material.color = ink.clone();
     }
     mesh.setColorAt(0, new THREE.Color()); color(); window.__glColor = color;
-    function size() { var w = cv.clientWidth, h = cv.clientHeight; if (!w || !h) return; renderer.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); cam.position.z = w / h < .9 ? 12 : 9.6; }
+    function size() { var w = cv.clientWidth, h = cv.clientHeight; if (!w || !h) return; renderer.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); cam.position.z = window.innerWidth <= 760 ? 10.5 : (w / h < .9 ? 12 : 9.6); }
     size(); window.addEventListener("resize", size);
     var rx = .35, ry = 0, vx = 0, vy = .0035, dragging = false, lx = 0, ly = 0, mx = 0, my = 0, pulse = 0;
     var ray = new THREE.Raycaster(), ndc = new THREE.Vector2(), sph = new THREE.Sphere(new THREE.Vector3(), R), hit = new THREE.Vector3(), hoverDir = null, hoverAmt = 0;
