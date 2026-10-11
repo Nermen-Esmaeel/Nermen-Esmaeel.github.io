@@ -1,0 +1,787 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Nermen Esmaeel — full stack developer (Laravel, ASP.NET Core, React, Spring Boot) in Damascus. Open to part-time remote work.">
+<meta property="og:title" content="Nermen Esmaeel — Full Stack Developer">
+<meta property="og:description" content="Laravel · ASP.NET Core · React · Spring Boot. 5 live sites. Open to part-time remote work.">
+<meta property="og:image" content="cofc-helpdesk.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 0 16 8 8 16 0 8Z' fill='%23d9480f'/%3E%3C/svg%3E">
+<style>html,body{margin:0;padding:0}</style>
+<title>Nermen Esmaeel — nermen.os</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=VT323&display=swap">
+<style>
+/* Layout: a retro desktop OS. Menubar on top; desktop icons on the left; a live three.js "sphere of volumes" filling the right;
+   draggable windows open over it. Boot sequence, CRT overlay, command palette (Ctrl/⌘K), working terminal, four phosphor themes.
+   Deliberately single-world (dark CRT); the theme switcher supplies variety, including a light "paper" palette. */
+:root {
+  --bg: #08091a;
+  --bg-2: #0f1126;
+  --panel: rgba(17, 19, 40, .78);
+  --panel-solid: #12142b;
+  --ink: #eeedfb;
+  --dim: #a3a5c8;
+  --faint: #4c4f78;
+  --line: rgba(238, 237, 251, .12);
+  --accent: #ffb86b;
+  --accent-2: #9b8cff;
+  --accent-ink: #160f06;
+  --glow: rgba(255, 184, 107, .38);
+  --ok: #7ee8a6;
+  --bad: #ff6b7d;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --pixel: "VT323", "IBM Plex Mono", monospace;
+  color-scheme: dark;
+}
+body[data-palette="amber"]  { --bg:#120f0b; --bg-2:#1a1610; --panel:rgba(23,19,14,.84); --panel-solid:#17130e; --ink:#f1e6d2; --dim:#a8987d; --faint:#5c5140; --line:rgba(241,230,210,.14); --accent:#ffb000; --accent-2:#ff7a3d; --accent-ink:#120f0b; --glow:rgba(255,176,0,.35); --ok:#8fe388; --bad:#ff6b5a; }
+body[data-palette="lagoon"] { --bg:#04131a; --bg-2:#0a1d25; --panel:rgba(9,27,34,.8); --panel-solid:#0a1a21; --ink:#dcf6f3; --dim:#86b3ad; --faint:#36585a; --line:rgba(216,244,240,.13); --accent:#3fe0c5; --accent-2:#5aa9ff; --accent-ink:#03151a; --glow:rgba(63,224,197,.35); }
+body[data-palette="neon"]   { --bg:#0b0616; --bg-2:#150c26; --panel:rgba(22,12,38,.8); --panel-solid:#140a22; --ink:#f3eaff; --dim:#a993c9; --faint:#4f3f6b; --line:rgba(241,231,255,.13); --accent:#ff4fd8; --accent-2:#00e1ff; --accent-ink:#0d0716; --glow:rgba(255,79,216,.38); }
+body[data-palette="paper"]  { --bg:#efe9dd; --bg-2:#e5ddcc; --panel:rgba(250,246,238,.86); --panel-solid:#f7f2e8; --ink:#1d1912; --dim:#5f5442; --faint:#a59a84; --line:rgba(29,25,18,.15); --accent:#d9480f; --accent-2:#3b5bdb; --accent-ink:#fff8ec; --glow:rgba(217,72,15,.22); --ok:#2f8a3a; --bad:#c0392b; color-scheme: light; }
+.screen::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(55% 60% at 72% 48%, color-mix(in srgb, var(--accent-2) 22%, transparent), transparent 70%),
+              radial-gradient(40% 45% at 8% 95%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%),
+              radial-gradient(30% 30% at 95% 5%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 70%); transition: background .5s; }
+.screen { isolation: isolate; }
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--ink); font: 14px/1.6 var(--mono); overflow: hidden; transition: background .4s, color .4s; }
+a { color: var(--accent); }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+::selection { background: var(--accent); color: var(--accent-ink); }
+
+/* ── CRT ── */
+.crt-layer { position: fixed; inset: 0; pointer-events: none; z-index: 900; }
+body.crt .crt-layer::before { content: ""; position: absolute; inset: 0;
+  background: repeating-linear-gradient(180deg, rgba(0,0,0,.18) 0 1px, transparent 1px 3px); mix-blend-mode: multiply; }
+body.crt .crt-layer::after { content: ""; position: absolute; inset: 0;
+  background: radial-gradient(120% 90% at 50% 50%, transparent 55%, rgba(0,0,0,.55) 100%); }
+body.crt[data-palette="paper"] .crt-layer::before { background: repeating-linear-gradient(180deg, rgba(0,0,0,.06) 0 1px, transparent 1px 3px); }
+body.crt[data-palette="paper"] .crt-layer::after { background: radial-gradient(120% 90% at 50% 50%, transparent 60%, rgba(60,40,10,.22) 100%); }
+@media (prefers-reduced-motion: no-preference) {
+  body.crt .screen { animation: flick 6s infinite steps(1); }
+  @keyframes flick { 0%, 96%, 100% { opacity: 1; } 97% { opacity: .94; } 98% { opacity: 1; } 99% { opacity: .97; } }
+}
+body.crt .glowtxt { text-shadow: 0 0 10px var(--glow); }
+
+/* ── boot ── */
+#boot { position: fixed; inset: 0; z-index: 800; background: var(--bg); padding: 28px; display: flex; flex-direction: column; justify-content: flex-end; cursor: pointer; }
+#boot pre { margin: 0; font: 15px/1.7 var(--mono); color: var(--dim); white-space: pre-wrap; }
+#boot pre b { color: var(--ok); font-weight: 500; }
+#boot pre i { color: var(--accent); font-style: normal; }
+#boot .skip { position: absolute; top: 22px; right: 26px; font-size: 12px; color: var(--faint); }
+#boot.gone { opacity: 0; pointer-events: none; transition: opacity .5s; }
+
+/* ── menubar ── */
+.screen { position: fixed; inset: 0; display: flex; flex-direction: column; }
+.menubar { height: 36px; flex: none; display: flex; align-items: center; gap: 4px; padding-inline: 10px; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--bg-2) 88%, transparent); position: relative; z-index: 500; padding-top: env(safe-area-inset-top, 0px); box-sizing: content-box; }
+.logo { display: flex; align-items: center; gap: 8px; font-weight: 600; padding: 4px 8px; color: var(--accent); }
+.logo svg { width: 16px; height: 16px; }
+.menu { position: relative; }
+.menu > button { background: none; border: 0; padding: 5px 10px; border-radius: 6px; cursor: pointer; color: var(--ink); }
+.menu > button:hover, .menu.open > button { background: var(--line); }
+.drop { position: absolute; top: calc(100% + 6px); left: 0; min-width: 230px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 6px; box-shadow: 0 18px 40px -12px rgba(0,0,0,.6); display: none; }
+.menu.open .drop { display: block; }
+.drop button { display: flex; justify-content: space-between; gap: 16px; width: 100%; text-align: left; background: none; border: 0; padding: 7px 10px; border-radius: 6px; cursor: pointer; }
+.drop button:hover { background: var(--accent); color: var(--accent-ink); }
+.drop button kbd, .drop button small { color: var(--dim); font: 12px var(--mono); }
+.drop button:hover kbd, .drop button:hover small { color: inherit; }
+.drop hr { border: 0; border-top: 1px solid var(--line); margin: 5px 4px; }
+.mb-right { margin-left: auto; display: flex; align-items: center; gap: 14px; color: var(--dim); font-size: 13px; }
+.kbtn { background: none; border: 1px solid var(--line); border-radius: 6px; padding: 2px 8px; cursor: pointer; color: var(--dim); font-size: 12px; }
+.kbtn:hover { color: var(--ink); border-color: var(--dim); }
+.dot-live { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); display: inline-block; margin-right: 6px; box-shadow: 0 0 8px var(--ok); }
+
+/* ── desktop ── */
+.desk { position: relative; flex: 1; overflow: hidden; }
+#gl { position: absolute; top: 0; right: 0; width: 68%; height: 100%; display: block; cursor: grab; touch-action: none; }
+#gl:active { cursor: grabbing; }
+.leftcol { position: absolute; top: 0; left: 0; bottom: 0; width: min(660px, 48vw); display: flex; flex-direction: column; gap: 18px; padding: 18px 16px 24px; z-index: 5; overflow-y: auto; overflow-x: hidden; pointer-events: none; scrollbar-width: none; }
+.leftcol > * { pointer-events: auto; }
+@media (min-width: 761px) and (max-height: 800px) { .icons { grid-template-columns: repeat(3, 96px) !important; } .ico { padding-block: 6px; } }
+@media (min-width: 761px) and (max-height: 580px) { .icons { grid-template-columns: repeat(5, 96px) !important; } .hello .role { display: none; } }
+.icons { display: grid; grid-template-columns: repeat(2, 96px); gap: 6px; flex: none; }
+.ico { display: grid; justify-items: center; gap: 6px; padding: 10px 4px; border: 1px solid transparent; border-radius: 10px; background: none; cursor: pointer; text-align: center; font-size: 12px; color: var(--ink); }
+.ico:hover, .ico:focus-visible { background: color-mix(in srgb, var(--accent) 12%, transparent); border-color: color-mix(in srgb, var(--accent) 40%, transparent); }
+.ico svg { width: 40px; height: 40px; color: var(--accent); }
+.ico span { line-height: 1.25; }
+.ico em { font-style: normal; color: var(--dim); display: block; font-size: 10.5px; }
+.hello { margin-top: auto; padding-left: 8px; flex: none; pointer-events: none !important; }
+.hello .who { font: 400 clamp(48px, min(8.5vw, 11vh), 124px)/.82 var(--pixel); color: var(--ink); margin: 0; letter-spacing: .01em; }
+.hello .who span { color: var(--accent); }
+.hello .role { margin: 14px 0 0; color: var(--dim); font-size: 15px; }
+.prompt { margin-top: 8px; color: var(--ink); font-size: 14px; }
+.prompt b { color: var(--accent); font-weight: 500; }
+.caret { display: inline-block; width: 9px; height: 1.1em; background: var(--accent); vertical-align: -3px; margin-left: 3px; }
+@media (prefers-reduced-motion: no-preference) { .caret { animation: blink 1.05s steps(1) infinite; } @keyframes blink { 50% { opacity: 0; } } }
+.hint { position: absolute; right: 22px; bottom: 22px; z-index: 4; font-size: 12px; color: var(--faint); text-align: right; pointer-events: none; }
+
+/* ── windows ── */
+.win { position: absolute; z-index: 20; background: var(--panel); -webkit-backdrop-filter: blur(22px) saturate(140%); backdrop-filter: blur(22px) saturate(140%); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 40px 90px -30px rgba(0,0,0,.75), 0 0 0 1px rgba(0,0,0,.2); display: flex; flex-direction: column; max-height: calc(100% - 24px); min-width: 300px; transition: border-color .2s, box-shadow .3s; }
+.win.focus { border-color: color-mix(in srgb, var(--accent) 40%, var(--line)); box-shadow: 0 40px 90px -30px rgba(0,0,0,.75), 0 0 0 1px rgba(0,0,0,.2), 0 0 60px -20px var(--glow); }
+.win::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 1px; border-radius: 14px 14px 0 0; background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 70%, transparent), color-mix(in srgb, var(--accent-2) 70%, transparent), transparent); opacity: 0; transition: opacity .3s; }
+.win.focus::before { opacity: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  .win { animation: pop .34s cubic-bezier(.16,1,.3,1); transform-origin: var(--ox, 50%) var(--oy, 0%); }
+  @keyframes pop { from { transform: scale(.82) translateY(10px); opacity: 0; filter: blur(4px); } }
+  .win.closing { animation: shut .2s ease-in forwards; }
+  @keyframes shut { to { transform: scale(.9) translateY(8px); opacity: 0; filter: blur(3px); } }
+}
+.wclose { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; background: none; border: 1px solid var(--line); color: var(--dim); border-radius: 7px; padding: 3px 9px; cursor: pointer; font-size: 12px; flex: none; }
+.wclose:hover { border-color: var(--bad); color: var(--bad); background: color-mix(in srgb, var(--bad) 10%, transparent); }
+.wclose kbd { font: 10.5px var(--mono); opacity: .7; }
+.tbar { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-bottom: 1px solid var(--line); cursor: grab; user-select: none; touch-action: none; flex: none; }
+.tbar:active { cursor: grabbing; }
+.tdots { display: flex; gap: 6px; }
+.tdots button { width: 12px; height: 12px; border-radius: 50%; border: 0; padding: 0; cursor: pointer; background: var(--faint); }
+.tdots button.x { background: var(--bad); }
+.tdots button.m { background: var(--accent); }
+.ttl { flex: 1; text-align: center; font-size: 12.5px; color: var(--dim); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.ttl b { color: var(--ink); font-weight: 500; }
+.wbody { padding: 18px 20px 20px; overflow: auto; min-height: 0; }
+.wbody h2 { font: 400 40px/1 var(--pixel); margin: 0 0 6px; color: var(--ink); }
+.wbody h3 { font-size: 15px; margin: 22px 0 8px; color: var(--accent); font-weight: 600; }
+.wbody p { margin: 0 0 10px; color: var(--ink); }
+.muted { color: var(--dim) !important; }
+.tagline { color: var(--dim); margin-bottom: 14px !important; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: 8px; border: 1px solid var(--line); background: none; cursor: pointer; text-decoration: none; color: var(--ink); font-size: 13px; }
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn.solid { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.solid:hover { filter: brightness(1.08); color: var(--accent-ink); }
+.kv { display: grid; grid-template-columns: 110px 1fr; gap: 4px 14px; font-size: 13px; margin: 6px 0 14px; }
+.kv dt { color: var(--dim); }
+.kv dd { margin: 0; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); border-radius: 10px; margin: 14px 0 4px; }
+.stats div { padding: 10px 12px; border-left: 1px solid var(--line); }
+.stats div:first-child { border-left: 0; }
+.stats b { display: block; font: 400 34px/1 var(--pixel); color: var(--accent); }
+.stats span { font-size: 11.5px; color: var(--dim); }
+
+/* file listing */
+.ls { width: 100%; border-collapse: collapse; font-size: 13px; }
+.ls th { text-align: left; color: var(--dim); font-weight: 400; padding: 6px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.ls td { padding: 9px 10px; border-bottom: 1px dashed var(--line); vertical-align: top; }
+.ls tr.f { cursor: pointer; }
+.ls tr.f:hover td, .ls tr.f:focus-visible td { background: var(--accent); color: var(--accent-ink); }
+.ls tr.f:hover .st, .ls tr.f:focus-visible .st { color: var(--accent-ink); }
+.ls .n { white-space: nowrap; }
+.st { color: var(--ok); white-space: nowrap; }
+.ls-wrap { overflow-x: auto; }
+
+/* project gallery */
+.pgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; perspective: 900px; }
+.pcard { text-align: left; background: color-mix(in srgb, var(--bg) 70%, transparent); border: 1px solid var(--line); border-radius: 12px; padding: 0; overflow: hidden; cursor: pointer; display: grid; transition: border-color .25s, box-shadow .25s, transform .25s; transform-style: preserve-3d; min-width: 0; }
+.pcard:hover, .pcard:focus-visible { border-color: color-mix(in srgb, var(--accent) 60%, var(--line)); box-shadow: 0 20px 40px -20px var(--glow); }
+.pthumb { position: relative; aspect-ratio: 16/9; overflow: hidden; background: var(--bg-2); }
+.pthumb img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; transition: transform .6s cubic-bezier(.16,1,.3,1); }
+.pcard:hover .pthumb img { transform: scale(1.06); }
+.pthumb .num { position: absolute; top: 8px; left: 8px; font: 400 22px/1 var(--pixel); color: #fff; background: rgba(0,0,0,.55); padding: 3px 8px 1px; border-radius: 6px; }
+.pthumb .live { position: absolute; top: 8px; right: 8px; font-size: 11px; color: #c9ffd9; background: rgba(0,0,0,.55); padding: 3px 8px; border-radius: 6px; }
+.pthumb .art2 { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; font: 400 26px/1.1 var(--pixel); color: var(--accent);
+  background: radial-gradient(80% 90% at 20% 10%, color-mix(in srgb, var(--accent-2) 30%, transparent), transparent 60%), repeating-linear-gradient(135deg, var(--bg-2) 0 10px, var(--bg) 10px 20px); }
+.pmeta { padding: 12px 14px 14px; display: grid; gap: 3px; }
+.pmeta b { font-size: 14px; font-weight: 600; color: var(--ink); }
+.pmeta span { font-size: 12px; color: var(--dim); }
+.pmeta em { font-style: normal; font-size: 12px; color: var(--accent); margin-top: 4px; }
+
+/* cursor ring */
+#ring { position: fixed; left: 0; top: 0; width: 34px; height: 34px; margin: -17px 0 0 -17px; border: 1.5px solid var(--accent); border-radius: 50%; pointer-events: none; z-index: 950; opacity: 0; transition: width .2s, height .2s, margin .2s, opacity .3s, background .2s; mix-blend-mode: difference; }
+#ring.on { opacity: .9; }
+#ring.big { width: 56px; height: 56px; margin: -28px 0 0 -28px; background: color-mix(in srgb, var(--accent) 18%, transparent); }
+@media (pointer: coarse) { #ring { display: none; } }
+
+/* case study */
+.cover { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--bg); }
+.cover .cb { display: flex; gap: 6px; align-items: center; padding: 7px 10px; border-bottom: 1px solid var(--line); font-size: 11.5px; color: var(--dim); }
+.cover .cb i { width: 8px; height: 8px; border-radius: 50%; background: var(--faint); }
+.cover .cb span { margin-left: 8px; }
+.cover img { display: block; width: 100%; height: auto; }
+.fig { font-size: 11.5px; color: var(--dim); margin: 6px 0 14px !important; }
+.art { aspect-ratio: 2.2/1; display: grid; place-items: center; background: repeating-linear-gradient(135deg, var(--bg-2) 0 10px, var(--bg) 10px 20px); }
+.art div { font: 400 30px/1.1 var(--pixel); color: var(--accent); text-align: center; }
+ul.dash { list-style: none; margin: 0 0 10px; padding: 0; }
+ul.dash li { padding-left: 18px; position: relative; margin: 4px 0; }
+ul.dash li::before { content: "›"; position: absolute; left: 2px; color: var(--accent); }
+.steps { counter-reset: s; list-style: none; padding: 0; margin: 0 0 10px; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 34px 1fr; padding: 6px 0; border-bottom: 1px dashed var(--line); }
+.steps li::before { content: "0" counter(s); color: var(--accent); }
+.next { display: flex; justify-content: space-between; align-items: center; gap: 10px; border-top: 1px solid var(--line); margin-top: 16px; padding-top: 12px; flex-wrap: wrap; }
+
+/* code + diagram */
+pre.code { margin: 0 0 12px; padding: 14px 16px; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; font-size: 12.5px; line-height: 1.75; overflow-x: auto; color: var(--ink); }
+pre.code .c { color: var(--faint); } pre.code .a { color: var(--accent); } pre.code .g { color: var(--ok); } pre.code .r { color: var(--bad); }
+.svc { display: grid; grid-template-columns: 1fr 120px 1fr; gap: 10px; align-items: center; margin: 8px 0 12px; }
+.svc .box { border: 1px solid var(--accent); border-radius: 10px; padding: 12px; background: var(--bg); }
+.svc .box b { display: block; font: 400 26px/1 var(--pixel); }
+.svc .box small { color: var(--dim); display: block; }
+.svc .box .p { color: var(--accent); font-size: 12px; }
+.svc .wire { text-align: center; font-size: 11px; color: var(--dim); }
+.svc .wire .ln { height: 2px; background: var(--accent); position: relative; margin: 6px 0; }
+.svc .wire .ln::after { content: ""; position: absolute; right: -2px; top: -5px; border: 6px solid transparent; border-left: 8px solid var(--accent); border-right: 0; }
+.svc .wire .ln i { position: absolute; left: 0; top: -3px; width: 8px; height: 8px; background: var(--ink); }
+@media (prefers-reduced-motion: no-preference) { .svc .wire .ln i { animation: pk 1.8s linear infinite; } @keyframes pk { to { left: calc(100% - 8px); } } }
+
+/* git log */
+.log { font-size: 13px; }
+.log .e { display: grid; grid-template-columns: 22px 1fr; gap: 6px; }
+.log .g { color: var(--accent); }
+.log .h { color: var(--accent); }
+.log .t { color: var(--dim); }
+.log p { margin: 0 0 2px; }
+.log .m { color: var(--dim); margin-bottom: 12px; }
+
+/* terminal */
+.term { background: var(--bg); border-radius: 0 0 12px 12px; padding: 14px 16px; font-size: 13px; overflow: auto; min-height: 260px; flex: 1; cursor: text; }
+.term .out { white-space: pre-wrap; word-break: break-word; }
+.term .ln { display: flex; gap: 8px; align-items: baseline; }
+.term .ps { color: var(--accent); white-space: nowrap; }
+.term input { flex: 1; min-width: 0; background: none; border: 0; outline: 0; color: var(--ink); font: inherit; caret-color: var(--accent); }
+.term .o-dim { color: var(--dim); } .term .o-acc { color: var(--accent); } .term .o-ok { color: var(--ok); } .term .o-bad { color: var(--bad); }
+
+/* palette */
+#pal { position: fixed; inset: 0; z-index: 700; background: rgba(0,0,0,.45); display: none; align-items: flex-start; justify-content: center; padding-top: 14vh; }
+#pal.on { display: flex; }
+.pbox { width: min(560px, 92vw); background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 30px 80px -20px rgba(0,0,0,.8); overflow: hidden; }
+.pbox input { width: 100%; padding: 14px 16px; background: none; border: 0; border-bottom: 1px solid var(--line); color: var(--ink); font: 15px var(--mono); outline: 0; }
+.plist { max-height: 46vh; overflow: auto; padding: 6px; }
+.plist button { display: flex; justify-content: space-between; width: 100%; text-align: left; padding: 8px 10px; border: 0; background: none; border-radius: 7px; cursor: pointer; }
+.plist button.sel { background: var(--accent); color: var(--accent-ink); }
+.plist small { color: var(--dim); } .plist button.sel small { color: inherit; }
+.toast { position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%); z-index: 750; background: var(--accent); color: var(--accent-ink); padding: 8px 14px; border-radius: 8px; font-size: 13px; opacity: 0; transition: opacity .25s; pointer-events: none; }
+.toast.on { opacity: 1; }
+
+/* mobile */
+@media (max-width: 760px) {
+  body { overflow: auto; }
+  .menu.hide-sm, .mb-right .clock { display: none; }
+  #gl { width: 100%; height: 58%; top: auto; bottom: 0; opacity: .85; }
+  .leftcol { width: 100%; padding: 12px 12px 18px; }
+  .icons { grid-template-columns: repeat(3, 1fr); }
+  .ico svg { width: 34px; height: 34px; }
+  .hint { display: none; }
+  .win { left: 8px !important; right: 8px; top: 8px !important; width: auto !important; min-width: 0; height: calc(100% - 16px); max-height: none; }
+  .tbar { cursor: default; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .stats div:nth-child(3) { border-left: 0; }
+  .stats div:nth-child(n+3) { border-top: 1px solid var(--line); }
+  .svc { grid-template-columns: 1fr; }
+  .svc .wire .ln { width: 2px; height: 30px; margin: 4px auto; }
+  .svc .wire .ln::after { right: -5px; top: auto; bottom: -2px; border: 6px solid transparent; border-top: 8px solid var(--accent); border-bottom: 0; }
+  .svc .wire .ln i { left: -3px !important; animation: none; }
+  .kv { grid-template-columns: 90px 1fr; }
+  .pgrid { grid-template-columns: 1fr; }
+  .wclose { padding: 6px 12px; font-size: 13px; }
+  .wclose kbd { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div id="boot" role="status" aria-live="polite"><span class="skip">click or press any key to skip</span><pre id="bootlog"></pre></div>
+
+<div class="screen">
+  <div class="menubar">
+    <span class="logo glowtxt"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0 16 8 8 16 0 8Z"/></svg>nermen.os</span>
+    <div class="menu" data-m="file"><button type="button">File</button>
+      <div class="drop">
+        <button data-act="open:readme">README.md</button>
+        <button data-act="open:projects">~/projects <small>5</small></button>
+        <button data-act="open:systems">~/systems</button>
+        <button data-act="open:java">~/java</button>
+        <button data-act="open:code">~/github</button>
+        <button data-act="open:career">git log</button>
+        <button data-act="open:profile">profile</button>
+        <button data-act="open:contact">contact</button>
+        <hr><button data-act="open:terminal">Terminal <kbd>`</kbd></button>
+        <button data-act="closeall">Close all windows</button>
+      </div>
+    </div>
+    <div class="menu hide-sm" data-m="view"><button type="button">View</button>
+      <div class="drop">
+        <button data-act="theme:paper">Paper <small>default</small></button>
+        <button data-act="theme:midnight">Midnight</button>
+        <button data-act="theme:amber">Amber phosphor</button>
+        <button data-act="theme:lagoon">Lagoon</button>
+        <button data-act="theme:neon">Neon</button>
+        <hr><button data-act="crt">Toggle CRT tube</button>
+      </div>
+    </div>
+    <div class="menu hide-sm" data-m="sys"><button type="button">System</button>
+      <div class="drop">
+        <button data-act="random">Surprise me <small>random project</small></button>
+        <button data-act="reboot">Reboot</button>
+        <button data-act="link:https://github.com/Nermen-Esmaeel">GitHub ↗</button>
+        <button data-act="link:https://www.linkedin.com/in/nermen-esmaeel-a887a22a3">LinkedIn ↗</button>
+      </div>
+    </div>
+    <div class="mb-right">
+      <span><span class="dot-live"></span>available</span>
+      <span class="clock" id="clock">Damascus --:--</span>
+      <button class="kbtn" id="palBtn" type="button" aria-label="Open command palette">⌘K</button>
+    </div>
+  </div>
+
+  <div class="desk" id="desk">
+    <canvas id="gl" aria-label="Rotating sphere of volumes. Drag or scroll to turn it."></canvas>
+
+    <div class="leftcol">
+    <nav class="icons" aria-label="Desktop">
+      <button class="ico" data-act="open:readme"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 4h15l7 7v25H9z"/><path d="M24 4v7h7M14 18h12M14 23h12M14 28h8"/></svg><span>README<em>.md</em></span></button>
+      <button class="ico" data-act="open:projects"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 10h12l3 4h17v20H4z"/><path d="M4 14h32"/></svg><span>01 projects<em>5 live</em></span></button>
+      <button class="ico" data-act="open:systems"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="10" y="17" width="20" height="17" rx="2"/><path d="M14 17v-5a6 6 0 0 1 12 0v5M20 24v4"/></svg><span>02 systems<em>private</em></span></button>
+      <button class="ico" data-act="open:java"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="12" width="12" height="14" rx="2"/><rect x="24" y="12" width="12" height="14" rx="2"/><path d="M16 19h8M21 16l3 3-3 3"/></svg><span>03 java<em>spring boot</em></span></button>
+      <button class="ico" data-act="open:code"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 12 6 20l8 8M26 12l8 8-8 8M23 9l-6 22"/></svg><span>04 github<em>8 repos</em></span></button>
+      <button class="ico" data-act="open:career"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="9" r="3"/><circle cx="12" cy="31" r="3"/><circle cx="28" cy="18" r="3"/><path d="M12 12v16M12 22c0-4 4-4 13-4"/></svg><span>05 git log<em>career</em></span></button>
+      <button class="ico" data-act="open:profile"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="20" cy="14" r="6"/><path d="M8 34c1.5-7 6-10 12-10s10.5 3 12 10"/></svg><span>06 profile<em>skills</em></span></button>
+      <button class="ico" data-act="open:contact"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="9" width="30" height="22" rx="2"/><path d="m6 11 14 11 14-11"/></svg><span>07 contact<em>hire me</em></span></button>
+      <button class="ico" data-act="open:terminal"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="7" width="32" height="26" rx="2"/><path d="m10 15 5 5-5 5M18 26h10"/></svg><span>terminal<em>try `help`</em></span></button>
+    </nav>
+
+    <div class="hello">
+      <p class="who glowtxt">Nermen<br><span>Esmaeel</span></p>
+      <p class="role">full stack developer · Laravel · ASP.NET Core · React · Spring Boot</p>
+      <p class="prompt"><b>nermen@damascus</b>:~$ <span id="typed">open to part-time remote work</span><span class="caret"></span></p>
+    </div>
+    </div>
+    <div class="hint">hover, drag or click the sphere · ⌘K for commands</div>
+  </div>
+</div>
+
+<div id="pal" role="dialog" aria-label="Command palette"><div class="pbox"><input id="palIn" placeholder="Type a command… (projects, theme, crt, contact)" autocomplete="off" aria-label="Search commands"><div class="plist" id="palList"></div></div></div>
+<div class="toast" id="toast"></div>
+<div id="ring" aria-hidden="true"></div>
+<div class="crt-layer" aria-hidden="true"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+  var reduceM = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  /* ─────────── data ─────────── */
+  var PROJECTS = [
+    { id: "cofc-helpdesk", name: "COFC Helpdesk", url: "https://helpdesk.cofc.gov.sy/", host: "helpdesk.cofc.gov.sy", img: "cofc-helpdesk.jpg",
+      stack: "Laravel", period: "COFC, in-house", client: "Central Organization for Financial Control", role: "Solo full stack: built end to end", status: "live · Arabic RTL",
+      intro: "The organization's technical-support platform. I built it on my own: database, roles, the approval workflow and the Arabic right-to-left interface.",
+      steps: ["An employee files a report, or a citizen files a complaint", "The department head reviews and approves it", "Support sets the priority and assigns a technician", "Everyone tracks it through to resolution"] },
+    { id: "alnuaimi-law", name: "Abdulla AlNuaimi Law Firm", url: "https://abdulla-alnuaimi.net/", host: "abdulla-alnuaimi.net", img: "alnuaimi-law.jpg",
+      stack: "Laravel · EN/AR", period: "2025 – 26", client: "Abdulla AlNuaimi Law Firm, Dubai", role: "Full stack developer at Bitmasters", status: "live",
+      intro: "Bilingual website for a Dubai law firm serving companies, investors and individuals across the UAE.",
+      bullets: ["Practice areas, team and services", "Legal blog managed from an admin panel", "Consultation requests", "English and Arabic versions"] },
+    { id: "bitmasters", name: "Bitmasters", url: "https://thebitmasters.com/", host: "thebitmasters.com", img: "bitmasters.jpg",
+      stack: "Laravel · RTL", period: "2025 – 26", client: "Bitmasters, Dubai", role: "Full stack developer", status: "live",
+      intro: "Website of a Dubai technology company offering AI, web, app and SEO services.",
+      bullets: ["Services, solutions and six software products", "Client case studies and a blog", "Bilingual interface with real right-to-left layouts"] },
+    { id: "emirus-travel", name: "Emirus Travel", url: "https://emirustravels.ae/", host: "emirustravels.ae", img: "emirus-travel.jpg",
+      stack: "Laravel · EN/AR/RU", period: "2025 – 26", client: "Emirus Travel, Dubai", role: "Full stack developer at Bitmasters", status: "live",
+      intro: "Luxury travel house in Dubai with offices in Moscow, Riyadh, London and Geneva.",
+      bullets: ["Royal services, visas and packages", "Destinations and a travel journal", "Consultation form and on-site assistant", "English, Arabic and Russian"] },
+    { id: "fay-for-arabic", name: "Fay For Arabic", url: "https://www.fayforar.com/", host: "fayforar.com", img: null,
+      stack: "Laravel API", period: "freelance", client: "Fay For Arabic", role: "Backend developer (freelance)", status: "live",
+      intro: "Backend for a platform of books for learning Arabic and the Qur'an.",
+      bullets: ["Data model and database design", "REST APIs behind the live site"] }
+  ];
+  var REPOS = [
+    ["POS", "Laravel · Pusher", "Invoicing & point of sale: reports, Excel export, real-time notifications, role permissions", "POS"],
+    ["Blood_Donation", "Laravel · Livewire", "Donor requests, approvals and blood stock by type and city", "Blood_Donation_management_System"],
+    ["Mountain_BreezeApi", "Laravel API", "Content API with JWT, tags, search, soft delete and restore", "Mountain_BreezeApi"],
+    ["BlogApi", "Laravel API", "JWT, user plans, categories, tags and a trash with restore", "BlogApi"],
+    ["CRM_Customer", "Spring Boot", "Customers & contacts, statistics, OpenFeign client to the HR service", "CRM_Customer_Management_Task"],
+    ["HR-Management", "Spring Boot", "Attendance punch-in/out, salary from attendance, MapStruct", "HR-Management"],
+    ["Events", "Spring Boot", "Event types, capacity control, soft delete with restore", "Events"]
+  ];
+  var GH = "https://github.com/Nermen-Esmaeel/";
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+
+  /* ─────────── window content ─────────── */
+  var VIEWS = {
+    readme: { title: "README.md", w: 560, x: 260, y: 40, html: function () {
+      return '<h2 class="glowtxt">Hi, I\'m Nermen.</h2>' +
+        '<p class="tagline">Full stack developer in Damascus. I design the database, build the API and ship the interface, in Arabic and English.</p>' +
+        '<div class="stats"><div><b>5+</b><span>years</span></div><div><b>5</b><span>sites live</span></div><div><b>4</b><span>stacks</span></div><div><b>AR·EN</b><span>LTR + RTL</span></div></div>' +
+        '<dl class="kv"><dt>stack</dt><dd>Laravel · ASP.NET Core · React · Spring Boot</dd><dt>now</dt><dd>Full stack developer at COFC</dd><dt>status</dt><dd><span style="color:var(--ok)">●</span> open to part-time remote work</dd></dl>' +
+        '<div class="row"><button class="btn solid" data-act="open:projects">open ~/projects</button><button class="btn" data-act="open:terminal">open terminal</button><button class="btn" data-act="open:contact">contact</button></div>' +
+        '<p class="muted" style="margin-top:14px;font-size:12px">tip: ⌘K / Ctrl+K opens the command palette · drag windows by their title bar</p>'; } },
+    projects: { title: "~/projects", w: 760, x: 250, y: 40, html: function () {
+      var r = PROJECTS.map(function (p, i) {
+        var thumb = p.img ? '<img src="' + p.img + '" alt="" loading="lazy">' : '<div class="art2">backend<br>REST API</div>';
+        return '<button class="pcard" type="button" data-act="case:' + i + '"><div class="pthumb">' + thumb + '<span class="num">0' + (i + 1) + '</span><span class="live">● live</span></div>' +
+          '<div class="pmeta"><b>' + esc(p.name) + '</b><span>' + esc(p.stack) + ' · ' + esc(p.period) + '</span><em>open case study →</em></div></button>';
+      }).join("");
+      return '<h2>projects</h2><p class="tagline">Five sites in production. Open one for the full story.</p>' +
+        '<div class="pgrid">' + r + '</div>' +
+        '<div class="row"><button class="btn" data-act="random">surprise me</button><button class="btn" data-act="open:systems">private systems →</button><button class="btn" data-act="open:java">spring boot →</button></div>'; } },
+    systems: { title: "~/systems  (private)", w: 620, x: 340, y: 90, html: function () {
+      return '<h2>private systems</h2><p class="tagline">The code stays behind a login. The engineering is shown here.</p>' +
+        '<h3>▣ Visa &amp; Endorsement Transactions System</h3>' +
+        '<pre class="code"><span class="c">// permissions resolved per organizational unit</span>\n[<span class="a">HasPermission</span>(<span class="g">"VIEW_TRANSACTIONS"</span>)]\nGET  /api/org-units/tree\nGET  /api/transactions?unitId=<span class="g">12</span>\n\n<span class="c">// Controller → Service → Data</span>\n<span class="a">InspectorsController</span>\n  └─ IInspectorService\n       └─ AppDbContext</pre>' +
+        '<dl class="kv"><dt>context</dt><dd>COFC, internal</dd><dt>stack</dt><dd>ASP.NET Core · React</dd></dl>' +
+        '<ul class="dash"><li>JWT authentication and role-based permissions scoped to organizational units</li><li>Service-layer architecture separating business logic from controllers</li><li>Org units (tree + table), public entities and inspectors, API to React UI</li></ul>' +
+        '<h3>▣ Security review of a live store</h3>' +
+        '<pre class="code"><span class="c"># reported as fixed</span>\nFileController.php        <span class="g">✓ patched</span>\n\n<span class="c"># same pattern, still reachable</span>\nProfileController.php     <span class="r">✗ path traversal</span>\nFileUploadController.php  <span class="r">✗ path traversal</span>\n\n<span class="c"># composer.lock</span>\nlaravel/framework         <span class="r">✗ not upgraded</span></pre>' +
+        '<ul class="dash"><li>Checked a vendor\'s fixes in the code, not just the report</li><li>Found the same flaw still live in two controllers</li><li>Caught dependencies reported as upgraded that never were</li></ul>'; } },
+    java: { title: "~/java  (spring boot)", w: 640, x: 380, y: 60, html: function () {
+      return '<h2>two services, one conversation</h2><p class="tagline">Built from my supervisor\'s task briefs during a Spring Boot training at Bitmasters.</p>' +
+        '<div class="svc"><div class="box"><span class="p">:8080</span><b>CRM service</b><small>customers · contacts · stats</small></div>' +
+        '<div class="wire">@FeignClient<div class="ln"><i></i></div>GET /api/employees</div>' +
+        '<div class="box"><span class="p">:8081</span><b>HR service</b><small>employees · attendance · salary</small></div></div>' +
+        '<p class="muted">The CRM links customers to the employees who handle them by calling the HR service over HTTP, so each service owns its own data.</p>' +
+        '<div class="ls-wrap"><table class="ls"><thead><tr><th>repo</th><th>highlights</th></tr></thead><tbody>' +
+        '<tr class="f" tabindex="0" data-act="link:' + GH + 'CRM_Customer_Management_Task"><td class="n">CRM_Customer ↗</td><td>primary-contact rule, statistics, JPA Specifications</td></tr>' +
+        '<tr class="f" tabindex="0" data-act="link:' + GH + 'HR-Management"><td class="n">HR-Management ↗</td><td>punch-in/out with duplicate guard, salary from attendance</td></tr>' +
+        '<tr class="f" tabindex="0" data-act="link:' + GH + 'Events"><td class="n">Events ↗</td><td>capacity control, upcoming events, soft delete + restore</td></tr>' +
+        '</tbody></table></div>' +
+        '<h3>same discipline in all three</h3><ul class="dash"><li>Controller → Service interface → implementation</li><li>Request payloads and response DTOs kept apart from entities</li><li>Liquibase migrations, Hibernate set to validate</li><li>Bean Validation and a global exception handler</li></ul>'; } },
+    code: { title: "~/github", w: 640, x: 320, y: 110, html: function () {
+      var r = REPOS.map(function (x) { return '<tr class="f" tabindex="0" data-act="link:' + GH + x[3] + '"><td class="n">' + esc(x[0]) + ' ↗</td><td>' + esc(x[1]) + '</td><td class="muted">' + esc(x[2]) + '</td></tr>'; }).join("");
+      return '<h2>github</h2><p class="tagline">Code you can read line by line.</p><div class="ls-wrap"><table class="ls"><thead><tr><th>repo</th><th>stack</th><th>what it does</th></tr></thead><tbody>' + r + '</tbody></table></div>' +
+        '<div class="row"><a class="btn solid" href="https://github.com/Nermen-Esmaeel" target="_blank" rel="noopener">github.com/Nermen-Esmaeel ↗</a></div>'; } },
+    career: { title: "git log --graph", w: 600, x: 360, y: 80, html: function () {
+      return '<h2>career</h2><div class="log">' +
+        '<div class="e"><span class="g">*</span><div><p><span class="h">a3f2c1e</span> (HEAD → present) <span class="t">2023 — now</span></p><p><b>Full Stack Developer @ COFC</b></p><p class="m">Built the live helpdesk platform end to end in Laravel. Auth, RBAC and core modules of an internal transactions system in ASP.NET Core + React.</p></div></div>' +
+        '<div class="e"><span class="g">*</span><div><p><span class="h">7be9d04</span> <span class="t">2025 — 2026</span></p><p><b>Full Stack Laravel Developer @ Bitmasters</b> <span class="muted">(part-time, remote)</span></p><p class="m">Three multilingual client sites now in production in Dubai. Two-month Java Spring Boot training.</p></div></div>' +
+        '<div class="e"><span class="g">*</span><div><p><span class="h">19c0a7f</span> <span class="t">2021 — 2024</span></p><p><b>Laravel &amp; Backend Developer</b> @ FocalX · Arjwan · freelance</p><p class="m">Backend features, REST APIs, query optimization, responsive interfaces.</p></div></div>' +
+        '<div class="e"><span class="g">*</span><div><p><span class="h">0b4e2aa</span> <span class="t">2021</span></p><p><b>B.Sc. Computer &amp; Control Engineering</b> · Tishreen University</p><p class="m">M.Sc. Computer Science in progress.</p></div></div>' +
+        '</div>'; } },
+    profile: { title: "profile", w: 560, x: 300, y: 100, html: function () {
+      return '<h2>profile</h2><p class="tagline">Nermen Jaber Esmaeel · Damascus, Syria</p>' +
+        '<dl class="kv"><dt>backend</dt><dd>Laravel · PHP · ASP.NET Core · C# · Spring Boot · Java</dd><dt>frontend</dt><dd>React · JavaScript · HTML · CSS · RTL layouts</dd><dt>data</dt><dd>MySQL · SQL · Eloquent · JPA · Liquibase</dd><dt>api</dt><dd>REST · JWT · RBAC · OpenFeign</dd><dt>workflow</dt><dd>Git · pull requests · code review · security review · AI coding tools</dd><dt>languages</dt><dd>Arabic (native) · English (fluent)</dd><dt>education</dt><dd>B.Sc. Computer &amp; Control Eng. · M.Sc. CS in progress</dd></dl>' +
+        '<div class="row"><button class="btn" data-act="open:career">git log →</button><button class="btn solid" data-act="open:contact">contact →</button></div>'; } },
+    contact: { title: "contact", w: 520, x: 420, y: 120, html: function () {
+      return '<h2 class="glowtxt">let\'s build something.</h2><p class="tagline">Available part-time and remote: Laravel features and maintenance, React frontends, APIs and security reviews of existing code. Arabic or English.</p>' +
+        '<pre class="code" id="mailbox">nerminesmaeel@gmail.com</pre>' +
+        '<div class="row"><button class="btn solid" data-act="copy">copy email</button><a class="btn" href="https://www.linkedin.com/in/nermen-esmaeel-a887a22a3" target="_blank" rel="noopener">LinkedIn ↗</a><a class="btn" href="https://github.com/Nermen-Esmaeel" target="_blank" rel="noopener">GitHub ↗</a></div>'; } },
+    terminal: { title: "nermen@damascus: ~", w: 600, x: 340, y: 150, term: true }
+  };
+  function caseHtml(i) {
+    var p = PROJECTS[i], n = PROJECTS[(i + 1) % PROJECTS.length];
+    var cover = p.img
+      ? '<div class="cover"><div class="cb"><i></i><i></i><i></i><span>' + esc(p.host) + '</span></div><img src="' + p.img + '" alt="' + esc(p.name) + ' home page"></div>'
+      : '<div class="cover"><div class="cb"><i></i><i></i><i></i><span>' + esc(p.host) + '</span></div><div class="art"><div>backend · REST API<br>' + esc(p.host) + '</div></div></div>';
+    var list = p.steps ? '<h3>the workflow</h3><ol class="steps">' + p.steps.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("") + "</ol>"
+      : '<h3>what\'s inside</h3><ul class="dash">' + p.bullets.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("") + "</ul>";
+    return '<h2>' + esc(p.name) + '</h2><p class="tagline">' + esc(p.intro) + '</p>' + cover +
+      '<p class="fig">fig. 0' + (i + 1) + ' — home page, ' + esc(p.host) + '</p>' +
+      '<dl class="kv"><dt>client</dt><dd>' + esc(p.client) + '</dd><dt>role</dt><dd>' + esc(p.role) + '</dd><dt>period</dt><dd>' + esc(p.period) + '</dd><dt>stack</dt><dd>' + esc(p.stack) + '</dd><dt>status</dt><dd style="color:var(--ok)">● ' + esc(p.status) + '</dd></dl>' +
+      list +
+      '<div class="next"><a class="btn solid" href="' + p.url + '" target="_blank" rel="noopener">visit live site ↗</a><button class="btn" data-act="case:' + ((i + 1) % PROJECTS.length) + '">up next: ' + esc(n.name) + ' →</button></div>';
+  }
+
+  /* ─────────── window manager ─────────── */
+  var desk = document.getElementById("desk"), z = 30, open = {}, cascade = 0;
+  function isMobile() { return window.innerWidth <= 760; }
+  function focusWin(w) { Object.keys(open).forEach(function (k) { open[k].classList.remove("focus"); }); w.classList.add("focus"); w.style.zIndex = ++z; }
+  var lastOrigin = null;
+  function closeWin(id) {
+    var w = open[id]; if (!w) return; delete open[id];
+    if (reduceM) { w.remove(); return; }
+    w.classList.add("closing"); setTimeout(function () { w.remove(); }, 210);
+  }
+  function openWin(id, opts) {
+    opts = opts || {};
+    if (open[id]) { if (opts.html) open[id].querySelector(".wbody").innerHTML = opts.html; if (opts.title) open[id].querySelector(".ttl").innerHTML = opts.title; focusWin(open[id]); return open[id]; }
+    var v = VIEWS[id] || {};
+    var w = document.createElement("section");
+    w.className = "win"; w.setAttribute("role", "dialog"); w.setAttribute("aria-label", (opts.titleText || v.title || id));
+    var dw = Math.min(opts.w || v.w || 600, desk.clientWidth - 24);
+    var x = Math.max(12, Math.min((opts.x != null ? opts.x : v.x || 300) + cascade, desk.clientWidth - dw - 12));
+    var y = Math.max(12, Math.min((opts.y != null ? opts.y : v.y || 60) + cascade, desk.clientHeight - 240));
+    cascade = (cascade + 18) % 90;
+    w.style.width = dw + "px"; w.style.left = x + "px"; w.style.top = y + "px";
+    if (lastOrigin) { w.style.setProperty("--ox", (lastOrigin.x - x) + "px"); w.style.setProperty("--oy", (lastOrigin.y - y) + "px"); lastOrigin = null; }
+    w.innerHTML = '<div class="tbar"><div class="tdots"><button class="x" type="button" aria-label="Close window"></button><button class="m" type="button" aria-label="Bring to front"></button><button type="button" aria-label="Center window"></button></div><div class="ttl">' + (opts.title || ("<b>" + esc(v.title || id) + "</b>")) + '</div><button class="wclose" type="button" aria-label="Close window">✕ close <kbd>esc</kbd></button></div>' +
+      (v.term ? '<div class="term" id="term"><div class="out" id="tout"></div><div class="ln"><span class="ps">nermen@damascus:~$</span><input id="tin" aria-label="Terminal input" autocomplete="off" spellcheck="false"></div></div>' : '<div class="wbody">' + (opts.html || v.html()) + '</div>');
+    desk.appendChild(w); open[id] = w; focusWin(w);
+    w.addEventListener("pointerdown", function () { focusWin(w); });
+    w.querySelector(".x").addEventListener("click", function (e) { e.stopPropagation(); closeWin(id); });
+    w.querySelector(".wclose").addEventListener("click", function (e) { e.stopPropagation(); closeWin(id); });
+    tilt(w);
+    w.querySelectorAll(".tdots button")[2].addEventListener("click", function () { w.style.left = Math.max(12, (desk.clientWidth - w.offsetWidth) / 2) + "px"; w.style.top = "24px"; });
+    drag(w);
+    if (v.term) initTerm();
+    return w;
+  }
+  function tilt(w) {
+    if (reduceM || window.matchMedia("(pointer: coarse)").matches) return;
+    w.addEventListener("pointermove", function (e) {
+      var c = e.target.closest(".pcard"); if (!c) return;
+      var b = c.getBoundingClientRect(), px = (e.clientX - b.left) / b.width - .5, py = (e.clientY - b.top) / b.height - .5;
+      c.style.transform = "rotateY(" + (px * 8) + "deg) rotateX(" + (-py * 8) + "deg) translateZ(6px)";
+    });
+    w.addEventListener("pointerout", function (e) { var c = e.target.closest(".pcard"); if (c && !c.contains(e.relatedTarget)) c.style.transform = ""; });
+  }
+  function drag(w) {
+    var bar = w.querySelector(".tbar"), sx, sy, ox, oy, on = false;
+    bar.addEventListener("pointerdown", function (e) {
+      if (isMobile() || e.target.closest("button")) return;
+      on = true; sx = e.clientX; sy = e.clientY; ox = w.offsetLeft; oy = w.offsetTop; bar.setPointerCapture(e.pointerId);
+    });
+    bar.addEventListener("pointermove", function (e) {
+      if (!on) return;
+      var nx = Math.max(-w.offsetWidth + 80, Math.min(desk.clientWidth - 80, ox + e.clientX - sx));
+      var ny = Math.max(0, Math.min(desk.clientHeight - 40, oy + e.clientY - sy));
+      w.style.left = nx + "px"; w.style.top = ny + "px";
+    });
+    bar.addEventListener("pointerup", function () { on = false; });
+  }
+  function openCase(i) {
+    var p = PROJECTS[i];
+    openWin("case", { html: caseHtml(i), title: "<b>~/projects/" + esc(p.id) + "/</b>", titleText: p.name, w: 640, x: 420, y: 40 });
+    var b = open["case"].querySelector(".wbody"); if (b) b.scrollTop = 0;
+  }
+
+  /* ─────────── actions ─────────── */
+  var THEMES = ["midnight", "amber", "lagoon", "neon", "paper"];
+  function toast(t) { var el = document.getElementById("toast"); el.textContent = t; el.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(function () { el.classList.remove("on"); }, 1600); }
+  function setTheme(t) { if (THEMES.indexOf(t) < 0) return false; document.body.setAttribute("data-palette", t); try { localStorage.setItem("nos-theme", t); } catch (e) {} if (window.__glColor) window.__glColor(); toast("theme → " + t); return true; }
+  function toggleCrt() { document.body.classList.toggle("crt"); var on = document.body.classList.contains("crt"); try { localStorage.setItem("nos-crt", on ? "1" : "0"); } catch (e) {} toast("CRT tube " + (on ? "on" : "off")); }
+  function copyMail() {
+    var t = "nerminesmaeel@gmail.com";
+    function sel() { var m = document.getElementById("mailbox"); if (m) { var r = document.createRange(); r.selectNodeContents(m); var s = getSelection(); s.removeAllRanges(); s.addRange(r); } toast("selected: press Ctrl+C"); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(function () { toast("email copied ✓"); }, sel); else sel();
+  }
+  function act(a) {
+    if (!a) return;
+    var i = a.indexOf(":"), k = i < 0 ? a : a.slice(0, i), v = i < 0 ? "" : a.slice(i + 1);
+    if (k === "open") openWin(v);
+    else if (k === "case") openCase(+v);
+    else if (k === "theme") setTheme(v);
+    else if (k === "crt") toggleCrt();
+    else if (k === "random") openCase(Math.floor(Math.random() * PROJECTS.length));
+    else if (k === "closeall") Object.keys(open).forEach(closeWin);
+    else if (k === "copy") copyMail();
+    else if (k === "reboot") { Object.keys(open).forEach(closeWin); boot(true); }
+    else if (k === "link") { var l = document.createElement("a"); l.href = v; l.target = "_blank"; l.rel = "noopener"; document.body.appendChild(l); l.click(); l.remove(); }
+  }
+  document.addEventListener("click", function (e) {
+    var t = e.target.closest("[data-act]");
+    if (t) { var rb = t.getBoundingClientRect(), db = desk.getBoundingClientRect(); lastOrigin = { x: rb.left + rb.width / 2 - db.left, y: rb.top + rb.height / 2 - db.top }; }
+    var m = e.target.closest(".menu");
+    document.querySelectorAll(".menu.open").forEach(function (x) { if (x !== m) x.classList.remove("open"); });
+    if (m && e.target.closest(".menu > button")) { m.classList.toggle("open"); return; }
+    if (t) { act(t.getAttribute("data-act")); document.querySelectorAll(".menu.open").forEach(function (x) { x.classList.remove("open"); }); }
+  });
+  document.addEventListener("keydown", function (e) {
+    var t = e.target;
+    if ((e.key === "Enter" || e.key === " ") && t.matches && t.matches("tr[data-act]")) { e.preventDefault(); act(t.getAttribute("data-act")); }
+  });
+
+  /* ─────────── terminal ─────────── */
+  var hist = [], hi = 0;
+  function tprint(html) { var o = document.getElementById("tout"); if (!o) return; var d = document.createElement("div"); d.innerHTML = html; o.appendChild(d); var term = document.getElementById("term"); term.scrollTop = term.scrollHeight; }
+  function initTerm() {
+    tprint('<span class="o-acc">nermen.os</span> <span class="o-dim">terminal · type</span> help <span class="o-dim">to see what I can do</span>');
+    var inp = document.getElementById("tin"); setTimeout(function () { inp.focus(); }, 30);
+    document.getElementById("term").addEventListener("click", function () { inp.focus(); });
+    inp.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") { var c = inp.value.trim(); inp.value = ""; tprint('<span class="o-acc">nermen@damascus:~$</span> ' + esc(c)); if (c) { hist.push(c); hi = hist.length; run(c); } }
+      else if (e.key === "ArrowUp") { if (hi > 0) { hi--; inp.value = hist[hi]; } e.preventDefault(); }
+      else if (e.key === "ArrowDown") { if (hi < hist.length - 1) { hi++; inp.value = hist[hi]; } else { hi = hist.length; inp.value = ""; } e.preventDefault(); }
+    });
+  }
+  function run(c) {
+    var a = c.split(/\s+/), cmd = a[0].toLowerCase(), arg = (a[1] || "").toLowerCase();
+    var C = {
+      help: function () { tprint('<span class="o-dim">commands</span>\n  whoami        who is this\n  ls            list folders\n  projects      list live projects\n  open &lt;name&gt;   open a project or folder (e.g. open bitmasters)\n  skills        the stack\n  career        git log\n  contact       how to reach me\n  theme &lt;name&gt;  midnight · amber · lagoon · neon · paper\n  crt           toggle the CRT tube\n  clear         clear the screen'); },
+      whoami: function () { tprint('Nermen Esmaeel — full stack developer, Damascus.\n<span class="o-dim">Laravel · ASP.NET Core · React · Spring Boot. Arabic + English, LTR + RTL.</span>\n<span class="o-ok">● open to part-time remote work</span>'); },
+      ls: function () { tprint('<span class="o-acc">projects/  systems/  java/  github/</span>  README.md  profile  contact'); },
+      projects: function () { tprint(PROJECTS.map(function (p, i) { return '0' + (i + 1) + '  <span class="o-acc">' + p.id + '/</span>  <span class="o-dim">' + p.stack + '</span>  <span class="o-ok">● live</span>'; }).join("\n") + '\n<span class="o-dim">tip: open ' + PROJECTS[2].id + '</span>'); },
+      open: function () {
+        if (!arg) return tprint('<span class="o-bad">usage:</span> open &lt;name&gt;');
+        var idx = -1; PROJECTS.forEach(function (p, i) { if (p.id.indexOf(arg) === 0 || p.name.toLowerCase().indexOf(arg) === 0) idx = idx < 0 ? i : idx; });
+        if (idx >= 0) { openCase(idx); return tprint('<span class="o-ok">opened</span> ' + PROJECTS[idx].id); }
+        var map = { projects: "projects", systems: "systems", java: "java", github: "code", code: "code", readme: "readme", profile: "profile", contact: "contact", career: "career" };
+        if (map[arg]) { openWin(map[arg]); return tprint('<span class="o-ok">opened</span> ' + arg); }
+        tprint('<span class="o-bad">not found:</span> ' + esc(arg));
+      },
+      skills: function () { tprint('backend   Laravel · ASP.NET Core · Spring Boot\nfrontend  React · JavaScript · RTL layouts\ndata      MySQL · SQL · JPA · Liquibase\napi       REST · JWT · RBAC · OpenFeign'); },
+      career: function () { tprint('<span class="o-acc">*</span> 2023—now   Full Stack Developer @ COFC\n<span class="o-acc">*</span> 2025—2026  Full Stack Laravel Dev @ Bitmasters (part-time)\n<span class="o-acc">*</span> 2021—2024  Laravel &amp; Backend @ FocalX · Arjwan · freelance'); },
+      contact: function () { tprint('email     nerminesmaeel@gmail.com\nlinkedin  linkedin.com/in/nermen-esmaeel-a887a22a3\ngithub    github.com/Nermen-Esmaeel'); },
+      theme: function () { if (!setTheme(arg)) tprint('<span class="o-dim">themes:</span> ' + THEMES.join(" · ")); else tprint('<span class="o-ok">theme set:</span> ' + arg); },
+      crt: function () { toggleCrt(); },
+      clear: function () { document.getElementById("tout").innerHTML = ""; },
+      sudo: function () { tprint(c.toLowerCase().indexOf("hire") >= 0 ? '<span class="o-ok">permission granted.</span> opening contact…' : '<span class="o-bad">nice try.</span>'); if (c.toLowerCase().indexOf("hire") >= 0) openWin("contact"); },
+      exit: function () { closeWin("terminal"); }
+    };
+    if (C[cmd]) C[cmd](); else tprint('<span class="o-bad">command not found:</span> ' + esc(cmd) + ' <span class="o-dim">— try help</span>');
+  }
+
+  /* ─────────── palette ─────────── */
+  var PAL = [
+    ["Open README.md", "open:readme", "file"], ["Open ~/projects", "open:projects", "folder"], ["Open ~/systems", "open:systems", "folder"],
+    ["Open ~/java", "open:java", "folder"], ["Open ~/github", "open:code", "folder"], ["git log (career)", "open:career", "file"],
+    ["Profile & skills", "open:profile", "file"], ["Contact", "open:contact", "file"], ["Terminal", "open:terminal", "app"],
+    ["Copy email", "copy", "action"], ["Surprise me", "random", "action"], ["Toggle CRT tube", "crt", "view"],
+    ["Theme: Midnight", "theme:midnight", "view"], ["Theme: Amber phosphor", "theme:amber", "view"], ["Theme: Lagoon", "theme:lagoon", "view"], ["Theme: Neon", "theme:neon", "view"], ["Theme: Paper", "theme:paper", "view"],
+    ["Close all windows", "closeall", "action"]
+  ].concat(PROJECTS.map(function (p, i) { return ["Project: " + p.name, "case:" + i, "project"]; }));
+  var pal = document.getElementById("pal"), pin = document.getElementById("palIn"), plist = document.getElementById("palList"), psel = 0, pitems = [];
+  function renderPal() {
+    var q = pin.value.toLowerCase().trim();
+    pitems = PAL.filter(function (x) { return !q || x[0].toLowerCase().indexOf(q) >= 0 || x[2].indexOf(q) >= 0; });
+    psel = Math.min(psel, Math.max(0, pitems.length - 1));
+    plist.innerHTML = pitems.map(function (x, i) { return '<button type="button" data-i="' + i + '" class="' + (i === psel ? "sel" : "") + '">' + esc(x[0]) + '<small>' + x[2] + '</small></button>'; }).join("") || '<p class="muted" style="padding:10px">no match</p>';
+  }
+  function showPal() { pal.classList.add("on"); pin.value = ""; psel = 0; renderPal(); setTimeout(function () { pin.focus(); }, 20); }
+  function hidePal() { pal.classList.remove("on"); }
+  document.getElementById("palBtn").addEventListener("click", function (e) { e.stopPropagation(); showPal(); });
+  pin.addEventListener("input", function () { psel = 0; renderPal(); });
+  pin.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowDown") { psel = Math.min(pitems.length - 1, psel + 1); renderPal(); e.preventDefault(); }
+    else if (e.key === "ArrowUp") { psel = Math.max(0, psel - 1); renderPal(); e.preventDefault(); }
+    else if (e.key === "Enter" && pitems[psel]) { hidePal(); act(pitems[psel][1]); }
+  });
+  plist.addEventListener("click", function (e) { var b = e.target.closest("button"); if (b) { hidePal(); act(pitems[+b.dataset.i][1]); } });
+  pal.addEventListener("click", function (e) { if (e.target === pal) hidePal(); });
+  document.addEventListener("keydown", function (e) {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); pal.classList.contains("on") ? hidePal() : showPal(); }
+    else if (e.key === "Escape") { if (pal.classList.contains("on")) hidePal(); else { var top = null, tz = -1; Object.keys(open).forEach(function (k) { var zz = +open[k].style.zIndex; if (zz > tz) { tz = zz; top = k; } }); if (top) closeWin(top); } }
+    else if (e.key === "`" && !(e.target.matches && e.target.matches("input"))) { e.preventDefault(); openWin("terminal"); }
+  });
+
+  /* ─────────── clock ─────────── */
+  function tick() { try { document.getElementById("clock").textContent = "Damascus " + new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Damascus" }).format(new Date()); } catch (e) {} }
+  tick(); setInterval(tick, 20000);
+
+  /* ─────────── boot ─────────── */
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function boot(force) {
+    var el = document.getElementById("boot"), log = document.getElementById("bootlog");
+    var lines = [
+      "nermen.os 5.0 — Damascus build", "",
+      "<b>[ OK ]</b> checking memory ........ 5+ years",
+      "<b>[ OK ]</b> loading stack ......... laravel · dotnet · react · spring",
+      "<b>[ OK ]</b> mounting volumes ...... projects 5/5",
+      "<b>[ OK ]</b> mounting volumes ...... repositories 7/7",
+      "<b>[ OK ]</b> locale ................ ar_SY · en_US · rtl ready",
+      "<b>[ OK ]</b> network ............... remote · part-time",
+      "", "<i>starting desktop…</i>"
+    ];
+    var done = false;
+    function finish() { if (done) return; done = true; el.classList.add("gone"); document.removeEventListener("keydown", finish, true); if (!Object.keys(open).length) openWin("readme"); }
+    if (reduce && !force) { el.classList.add("gone"); openWin("readme"); return; }
+    el.classList.remove("gone"); log.innerHTML = ""; var i = 0;
+    (function step() { if (done) return; if (i < lines.length) { log.innerHTML += lines[i++] + "\n"; setTimeout(step, 150); } else setTimeout(finish, 450); })();
+    el.onclick = finish; document.addEventListener("keydown", finish, true);
+  }
+
+  /* ─────────── restore prefs ─────────── */
+  try { var th = localStorage.getItem("nos-theme"); if (th && THEMES.indexOf(th) >= 0) document.body.setAttribute("data-palette", th); var cr = localStorage.getItem("nos-crt"); if (cr !== "0") document.body.classList.add("crt"); } catch (e) { document.body.classList.add("crt"); }
+  if (!document.body.getAttribute("data-palette")) document.body.setAttribute("data-palette", "paper");
+
+  /* ─────────── typed prompt ─────────── */
+  (function () {
+    var el = document.getElementById("typed"); if (!el || reduceM) return;
+    var phrases = ["open to part-time remote work", "building with Laravel & React", "shipping APIs with ASP.NET Core", "fluent in right-to-left", "press ` to open the terminal"];
+    var pi = 0, ci = phrases[0].length, del = true;
+    setTimeout(function step() {
+      var p = phrases[pi];
+      if (del) { ci--; if (ci <= 0) { del = false; pi = (pi + 1) % phrases.length; } }
+      else { ci++; if (ci >= phrases[pi].length) { del = true; el.textContent = phrases[pi]; return setTimeout(step, 2400); } }
+      el.textContent = phrases[pi].slice(0, Math.max(0, ci));
+      setTimeout(step, del ? 28 : 55);
+    }, 3800);
+  })();
+
+  /* ─────────── cursor ring ─────────── */
+  (function () {
+    var ring = document.getElementById("ring"); if (reduceM || window.matchMedia("(pointer: coarse)").matches) return;
+    var x = -100, y = -100, rx = -100, ry = -100;
+    document.addEventListener("pointermove", function (e) { x = e.clientX; y = e.clientY; ring.classList.add("on");
+      ring.classList.toggle("big", !!(e.target.closest && e.target.closest("button, a, .ico, .pcard, tr[data-act], #gl"))); });
+    document.addEventListener("pointerleave", function () { ring.classList.remove("on"); });
+    (function loop() { rx += (x - rx) * .2; ry += (y - ry) * .2; ring.style.transform = "translate(" + rx + "px," + ry + "px)"; requestAnimationFrame(loop); })();
+  })();
+
+  /* ─────────── three.js sphere of volumes ─────────── */
+  function initGL() {
+    if (!window.THREE) { document.getElementById("gl").style.display = "none"; return; }
+    var cv = document.getElementById("gl");
+    var renderer; try { renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: true, alpha: true }); } catch (e) { cv.style.display = "none"; return; }
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    var scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(34, 1, .1, 100); cam.position.set(0, 0, 9.2);
+    var group = new THREE.Group(); scene.add(group);
+    var N = 520, R = 2.35;
+    var geo = new THREE.BoxGeometry(.07, .07, 1); geo.translate(0, 0, .5);
+    var mat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: .95 });
+    var mesh = new THREE.InstancedMesh(geo, mat, N); group.add(mesh);
+    var dirs = [], seeds = [], dummy = new THREE.Object3D(), up = new THREE.Vector3(0, 0, 1);
+    var gold = Math.PI * (3 - Math.sqrt(5));
+    for (var i = 0; i < N; i++) { var y = 1 - (i / (N - 1)) * 2, r = Math.sqrt(1 - y * y), th = gold * i; dirs.push(new THREE.Vector3(Math.cos(th) * r, y, Math.sin(th) * r)); seeds.push(Math.random() * 6.28); }
+    var wire = new THREE.Mesh(new THREE.IcosahedronGeometry(R * .96, 2), new THREE.MeshBasicMaterial({ wireframe: true, transparent: true, opacity: .16, color: 0xffffff })); group.add(wire);
+    var ringG = new THREE.RingGeometry(R * 1.55, R * 1.56, 128), ring = new THREE.Mesh(ringG, new THREE.MeshBasicMaterial({ transparent: true, opacity: .25, side: THREE.DoubleSide, color: 0xffffff }));
+    ring.rotation.x = Math.PI / 2.3; scene.add(ring);
+    var pts = new THREE.BufferGeometry(), P = new Float32Array(600 * 3);
+    for (var j = 0; j < 600; j++) { var d = new THREE.Vector3(Math.random() - .5, Math.random() - .5, Math.random() - .5).normalize().multiplyScalar(3.2 + Math.random() * 2.5); P[j * 3] = d.x; P[j * 3 + 1] = d.y; P[j * 3 + 2] = d.z; }
+    pts.setAttribute("position", new THREE.BufferAttribute(P, 3));
+    var stars = new THREE.Points(pts, new THREE.PointsMaterial({ size: .025, transparent: true, opacity: .55, color: 0xffffff })); scene.add(stars);
+    function css(v) { return getComputedStyle(document.body).getPropertyValue(v).trim(); }
+    function color() {
+      var acc = new THREE.Color(css("--accent") || "#ffb86b"), acc2 = new THREE.Color(css("--accent-2") || "#9b8cff"), ink = new THREE.Color(css("--ink") || "#eeedfb");
+      var light = document.body.getAttribute("data-palette") === "paper";
+      for (var i = 0; i < N; i++) { var k = (dirs[i].y + 1) / 2; var c = acc.clone().lerp(acc2, k); if (Math.sin(seeds[i] * 7) > .82) c.lerp(ink, .7); mesh.setColorAt(i, c); }
+      mesh.instanceColor.needsUpdate = true;
+      var blend = light ? THREE.NormalBlending : THREE.AdditiveBlending;
+      [mat, wire.material, ring.material, stars.material].forEach(function (m) { m.blending = blend; m.needsUpdate = true; });
+      wire.material.color = acc2.clone(); ring.material.color = acc.clone(); stars.material.color = ink.clone();
+    }
+    mesh.setColorAt(0, new THREE.Color()); color(); window.__glColor = color;
+    function size() { var w = cv.clientWidth, h = cv.clientHeight; if (!w || !h) return; renderer.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); cam.position.z = w / h < .9 ? 12 : 9.6; }
+    size(); window.addEventListener("resize", size);
+    var rx = .35, ry = 0, vx = 0, vy = .0035, dragging = false, lx = 0, ly = 0, mx = 0, my = 0, pulse = 0;
+    var ray = new THREE.Raycaster(), ndc = new THREE.Vector2(), sph = new THREE.Sphere(new THREE.Vector3(), R), hit = new THREE.Vector3(), hoverDir = null, hoverAmt = 0;
+    var ripples = [], downX = 0, downY = 0;
+    function pick(e) {
+      var b = cv.getBoundingClientRect(); ndc.set(((e.clientX - b.left) / b.width) * 2 - 1, -((e.clientY - b.top) / b.height) * 2 + 1);
+      ray.setFromCamera(ndc, cam); if (ray.ray.intersectSphere(sph, hit)) { return group.worldToLocal(hit.clone()).normalize(); } return null;
+    }
+    cv.addEventListener("pointerdown", function (e) { dragging = true; lx = downX = e.clientX; ly = downY = e.clientY; cv.setPointerCapture(e.pointerId); });
+    cv.addEventListener("pointermove", function (e) {
+      var b = cv.getBoundingClientRect(); mx = ((e.clientX - b.left) / b.width - .5) * 2; my = ((e.clientY - b.top) / b.height - .5) * 2;
+      hoverDir = pick(e);
+      if (!dragging) return; vy = (e.clientX - lx) * .0009; vx = (e.clientY - ly) * .0009; lx = e.clientX; ly = e.clientY;
+    });
+    cv.addEventListener("pointerleave", function () { hoverDir = null; });
+    cv.addEventListener("pointerup", function (e) {
+      dragging = false;
+      if (Math.abs(e.clientX - downX) + Math.abs(e.clientY - downY) < 6) { var d = pick(e); if (d) { ripples.push({ d: d, t: performance.now() }); if (ripples.length > 4) ripples.shift(); pulse = .6; } }
+    });
+    cv.addEventListener("wheel", function (e) { e.preventDefault(); vy += e.deltaY * .00012; pulse = Math.min(1, pulse + .15); }, { passive: false });
+    var t0 = performance.now(), vis = true;
+    document.addEventListener("visibilitychange", function () { vis = !document.hidden; });
+    (function loop(now) {
+      requestAnimationFrame(loop); if (!vis) return;
+      var t = (now - t0) / 1000;
+      if (!dragging) { vy += (.0035 - vy) * .02; vx *= .95; }
+      ry += vy; rx = Math.max(-1, Math.min(1, rx + vx));
+      group.rotation.y = ry + mx * .12; group.rotation.x = rx + my * .08;
+      pulse *= .96;
+      hoverAmt += ((hoverDir ? 1 : 0) - hoverAmt) * .08;
+      var nowMs = performance.now();
+      ripples = ripples.filter(function (r) { return nowMs - r.t < 2200; });
+      for (var i = 0; i < N; i++) {
+        var d = dirs[i], s = seeds[i];
+        var len = .1 + (Math.sin(t * 1.3 + s * 2 + d.y * 3) * .5 + .5) * (.38 + .3 * Math.sin(t * .6 + s)) + pulse * .4 * Math.max(0, Math.sin(s * 5));
+        if (hoverDir) { var hd = d.distanceTo(hoverDir); if (hd < .75) len += Math.pow(1 - hd / .75, 2) * 1.25 * hoverAmt; }
+        for (var q = 0; q < ripples.length; q++) {
+          var age = (nowMs - ripples[q].t) / 1000, ang = Math.acos(Math.max(-1, Math.min(1, d.dot(ripples[q].d))));
+          var front = age * 2.2, w = ang - front; len += Math.exp(-(w * w) / .03) * 1.1 * (1 - age / 2.2);
+        }
+        if (reduce) len = .25 + .3 * Math.sin(s * 3) * Math.sin(s * 3);
+        dummy.position.copy(d).multiplyScalar(R); dummy.quaternion.setFromUnitVectors(up, d); dummy.scale.set(1, 1, Math.max(.05, len)); dummy.updateMatrix(); mesh.setMatrixAt(i, dummy.matrix);
+      }
+      mesh.instanceMatrix.needsUpdate = true;
+      wire.rotation.y = -t * .05; ring.rotation.z = t * .08; stars.rotation.y = t * .01;
+      renderer.render(scene, cam);
+    })(t0);
+  }
+  initGL();
+  boot(false);
+})();
+</script>
+
+</body>
+</html>
