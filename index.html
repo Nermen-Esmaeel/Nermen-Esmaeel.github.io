@@ -403,7 +403,7 @@ pre.code .c { color: var(--faint); } pre.code .a { color: var(--accent); } pre.c
     readme: { title: "README.md", w: 560, x: 260, y: 40, html: function () {
       return '<h2 class="glowtxt">Hi, I\'m Nermen.</h2>' +
         '<p class="tagline">Full stack developer in Damascus. I design the database, build the API and ship the interface, in Arabic and English.</p>' +
-        '<div class="stats"><div><b>5+</b><span>years</span></div><div><b>5</b><span>sites live</span></div><div><b>4</b><span>stacks</span></div><div><b>AR·EN</b><span>LTR + RTL</span></div></div>' +
+        '<div class="stats"><div><b>2021</b><span>coding since</span></div><div><b>5</b><span>sites live</span></div><div><b>4</b><span>stacks</span></div><div><b>AR·EN</b><span>LTR + RTL</span></div></div>' +
         '<dl class="kv"><dt>stack</dt><dd>Laravel · ASP.NET Core · React · Spring Boot</dd><dt>now</dt><dd>Full stack developer at COFC</dd><dt>status</dt><dd><span style="color:var(--ok)">●</span> open to part-time remote work</dd></dl>' +
         '<div class="row"><button class="btn solid" data-act="open:projects">open ~/projects</button><button class="btn" data-act="open:terminal">open terminal</button><button class="btn" data-act="open:contact">contact</button></div>' +
         '<p class="muted" style="margin-top:14px;font-size:12px">tip: ⌘K / Ctrl+K opens the command palette · drag windows by their title bar</p>'; } },
@@ -443,9 +443,11 @@ pre.code .c { color: var(--faint); } pre.code .a { color: var(--accent); } pre.c
         '<div class="row"><a class="btn solid" href="https://github.com/Nermen-Esmaeel" target="_blank" rel="noopener">github.com/Nermen-Esmaeel ↗</a></div>'; } },
     career: { title: "git log --graph", w: 600, x: 360, y: 80, html: function () {
       return '<h2>career</h2><div class="log">' +
-        '<div class="e"><span class="g">*</span><div><p><span class="h">a3f2c1e</span> (HEAD → present) <span class="t">2023 — now</span></p><p><b>Full Stack Developer @ COFC</b></p><p class="m">Built the live helpdesk platform end to end in Laravel. Auth, RBAC and core modules of an internal transactions system in ASP.NET Core + React.</p></div></div>' +
+        '<div class="e"><span class="g">*</span><div><p><span class="h">a3f2c1e</span> (HEAD → present) <span class="t">Aug 2023 — now</span></p><p><b>Full Stack Developer @ COFC</b></p><p class="m">Built the live helpdesk platform end to end in Laravel. Auth, RBAC and core modules of an internal transactions system in ASP.NET Core + React.</p></div></div>' +
         '<div class="e"><span class="g">*</span><div><p><span class="h">7be9d04</span> <span class="t">2025 — 2026</span></p><p><b>Full Stack Laravel Developer @ Bitmasters</b> <span class="muted">(part-time, remote)</span></p><p class="m">Three multilingual client sites now in production in Dubai. Two-month Java Spring Boot training.</p></div></div>' +
-        '<div class="e"><span class="g">*</span><div><p><span class="h">19c0a7f</span> <span class="t">2021 — 2024</span></p><p><b>Laravel &amp; Backend Developer</b> @ FocalX · Arjwan · freelance</p><p class="m">Backend features, REST APIs, query optimization, responsive interfaces.</p></div></div>' +
+        '<div class="e"><span class="g">*</span><div><p><span class="h">19c0a7f</span> <span class="t">2023 — 2024</span></p><p><b>Freelance Backend Developer</b></p><p class="m">Backend and REST APIs for fayforar.com and other client projects.</p></div></div>' +
+        '<div class="e"><span class="g">*</span><div><p><span class="h">5d81b3c</span> <span class="t">Feb — Dec 2023</span></p><p><b>Back-End Laravel Intern</b> @ FocalX Agency</p><p class="m">REST APIs, Eloquent schemas and query optimization.</p></div></div>' +
+        '<div class="e"><span class="g">*</span><div><p><span class="h">2c09e6d</span> <span class="t">Sep 2021 — Apr 2022</span></p><p><b>Web Development Intern</b> @ Orjwan Company</p><p class="m">HTML, CSS, JavaScript, PHP and MySQL.</p></div></div>' +
         '<div class="e"><span class="g">*</span><div><p><span class="h">0b4e2aa</span> <span class="t">2021</span></p><p><b>B.Sc. Computer &amp; Control Engineering</b> · Tishreen University</p><p class="m">M.Sc. Computer Science in progress.</p></div></div>' +
         '</div>'; } },
     profile: { title: "profile", w: 560, x: 300, y: 100, html: function () {
@@ -600,7 +602,7 @@ pre.code .c { color: var(--faint); } pre.code .a { color: var(--accent); } pre.c
         tprint('<span class="o-bad">not found:</span> ' + esc(arg));
       },
       skills: function () { tprint('backend   Laravel · ASP.NET Core · Spring Boot\nfrontend  React · JavaScript · RTL layouts\ndata      MySQL · SQL · JPA · Liquibase\napi       REST · JWT · RBAC · OpenFeign'); },
-      career: function () { tprint('<span class="o-acc">*</span> 2023—now   Full Stack Developer @ COFC\n<span class="o-acc">*</span> 2025—2026  Full Stack Laravel Dev @ Bitmasters (part-time)\n<span class="o-acc">*</span> 2021—2024  Laravel &amp; Backend @ FocalX · Arjwan · freelance'); },
+      career: function () { tprint('<span class="o-acc">*</span> 2023—now   Full Stack Developer @ COFC\n<span class="o-acc">*</span> 2025—2026  Full Stack Laravel Dev @ Bitmasters (part-time)\n<span class="o-acc">*</span> 2023—2024  Freelance Backend Developer\n<span class="o-acc">*</span> 2023       Back-End Laravel Intern @ FocalX\n<span class="o-acc">*</span> 2021—2022  Web Development Intern @ Orjwan'); },
       contact: function () { tprint('email     nerminesmaeel@gmail.com\nlinkedin  linkedin.com/in/nermen-esmaeel-a887a22a3\ngithub    github.com/Nermen-Esmaeel'); },
       theme: function () { if (!setTheme(arg)) tprint('<span class="o-dim">themes:</span> ' + THEMES.join(" · ")); else tprint('<span class="o-ok">theme set:</span> ' + arg); },
       crt: function () { toggleCrt(); },
@@ -654,7 +656,7 @@ pre.code .c { color: var(--faint); } pre.code .a { color: var(--accent); } pre.c
     var el = document.getElementById("boot"), log = document.getElementById("bootlog");
     var lines = [
       "nermen.os 5.0 — Damascus build", "",
-      "<b>[ OK ]</b> checking memory ........ 5+ years",
+      "<b>[ OK ]</b> checking memory ........ shipping since 2021",
       "<b>[ OK ]</b> loading stack ......... laravel · dotnet · react · spring",
       "<b>[ OK ]</b> mounting volumes ...... projects 5/5",
       "<b>[ OK ]</b> mounting volumes ...... repositories 7/7",
