@@ -365,7 +365,7 @@ pre.code .c { color: var(--faint); } pre.code .a { color: var(--accent); } pre.c
   var reduceM = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   /* ─────────── data ─────────── */
   var PROJECTS = [
-    { id: "cofc-helpdesk", name: "COFC Helpdesk", url: "https://helpdesk.cofc.gov.sy/", host: "helpdesk.cofc.gov.sy", img: "cofc-helpdesk.jpg",
+    { id: "cofc-helpdesk", name: "COFC Helpdesk", url: null, host: "COFC · technical support platform", img: "cofc-helpdesk.jpg",
       stack: "Laravel", period: "COFC, in-house", client: "Central Organization for Financial Control", role: "Solo full stack: built end to end", status: "live · Arabic RTL",
       intro: "The organization's technical-support platform. I built it on my own: database, roles, the approval workflow and the Arabic right-to-left interface.",
       steps: ["An employee files a report, or a citizen files a complaint", "The department head reviews and approves it", "Support sets the priority and assigns a technician", "Everyone tracks it through to resolution"] },
@@ -466,10 +466,10 @@ pre.code .c { color: var(--faint); } pre.code .a { color: var(--accent); } pre.c
     var list = p.steps ? '<h3>the workflow</h3><ol class="steps">' + p.steps.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("") + "</ol>"
       : '<h3>what\'s inside</h3><ul class="dash">' + p.bullets.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("") + "</ul>";
     return '<h2>' + esc(p.name) + '</h2><p class="tagline">' + esc(p.intro) + '</p>' + cover +
-      '<p class="fig">fig. 0' + (i + 1) + ' — home page, ' + esc(p.host) + '</p>' +
+      '<p class="fig">fig. 0' + (i + 1) + ' — home page' + (p.url ? ', ' + esc(p.host) : '') + '</p>' +
       '<dl class="kv"><dt>client</dt><dd>' + esc(p.client) + '</dd><dt>role</dt><dd>' + esc(p.role) + '</dd><dt>period</dt><dd>' + esc(p.period) + '</dd><dt>stack</dt><dd>' + esc(p.stack) + '</dd><dt>status</dt><dd style="color:var(--ok)">● ' + esc(p.status) + '</dd></dl>' +
       list +
-      '<div class="next"><a class="btn solid" href="' + p.url + '" target="_blank" rel="noopener">visit live site ↗</a><button class="btn" data-act="case:' + ((i + 1) % PROJECTS.length) + '">up next: ' + esc(n.name) + ' →</button></div>';
+      '<div class="next">' + (p.url ? '<a class="btn solid" href="' + p.url + '" target="_blank" rel="noopener">visit live site ↗</a>' : '<span class="muted" style="font-size:12px">● in production · internal organization system</span>') + '<button class="btn" data-act="case:' + ((i + 1) % PROJECTS.length) + '">up next: ' + esc(n.name) + ' →</button></div>';
   }
 
   /* ─────────── window manager ─────────── */
